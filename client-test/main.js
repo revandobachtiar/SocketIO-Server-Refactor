@@ -1,13 +1,11 @@
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:3000", {
+const socket = io("http://localhost:4000", {
   transports: ["websocket"],
   timeout: 5000,
 });
 
-// =====================
 // ACK EVENTS LIST
-// =====================
 
 const ACK_EVENTS = [
   "INCIDENT_FALL_DOWN_DETECTED",
@@ -26,12 +24,10 @@ const ACK_EVENTS = [
   "REMINDER_NOTIFY",
 ];
 
-// =====================
 // CONNECTION
-// =====================
 
 socket.on("connect", async () => {
-  console.log("✅ Connected:", socket.id);
+  console.log("Connected:", socket.id);
 
   for (const eventName of ACK_EVENTS) {
     await emitWithAck(eventName, {
@@ -40,36 +36,34 @@ socket.on("connect", async () => {
     });
   }
 
-  console.log("🎉 All ACK_EVENTS tested");
+  console.log("All ACK_EVENTS tested");
   socket.disconnect();
 });
 
-// =====================
 // EMIT WITH ACK + TIMEOUT
-// =====================
+
 function emitWithAck(eventName, payload) {
   return new Promise((resolve) => {
-    console.log(`➡️ Emit: ${eventName}`);
+    console.log(`Emit: ${eventName}`);
 
     socket
       .timeout(3000)
       .emit(eventName, payload, (err, ack) => {
         if (err) {
-          console.error(`⏱️ ACK timeout: ${eventName}`);
+          console.error(`ACK timeout: ${eventName}`);
           return resolve(null);
         }
 
-        console.log(`✅ ACK received [${eventName}]:`, ack);
+        console.log(`ACK received [${eventName}]:`, ack);
         resolve(ack);
       });
   });
 }
 
-// =====================
 // ERROR HANDLING
-// =====================
+
 socket.on("disconnect", () => {
-  console.log("❌ Disconnected");
+  console.log("Disconnected");
 });
 
 socket.on("connect_error", (err) => {

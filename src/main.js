@@ -29,6 +29,6 @@ io.on("connection", (socket) => {
   registerHandlers(socket, io);
 })
 
-httpServer.listen(3000, "0.0.0.0",() =>
-  console.log(" Socket.IO server aktif di port 3000")
+httpServer.listen(4000, "0.0.0.0",() => 
+  console.log(" Socket.IO server aktif di port 4000")
 );

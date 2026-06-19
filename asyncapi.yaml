@@ -1,0 +1,226 @@
+asyncapi: 3.0.0
+
+info:
+  title: Elderly Device Socket.IO API
+  version: 1.0.0
+  description: |
+    Elderly Robot Care
+
+servers:
+  production:
+    host: localhost:4000
+    protocol: ws
+    description: Socket.IO Server
+
+channels:
+
+  INCIDENT_FALL_DOWN_DETECTED:
+    address: INCIDENT_FALL_DOWN_DETECTED
+    messages:
+      incidentFallDetected:
+        $ref: '#/components/messages/IncidentMessage'
+
+  INCIDENT_FALL_DOWN_NO_RESPONSE:
+    address: INCIDENT_FALL_DOWN_NO_RESPONSE
+    messages:
+      incidentNoResponse:
+        $ref: '#/components/messages/IncidentMessage'
+
+  INCIDENT_HELP_EVENT_DETECTED:
+    address: INCIDENT_HELP_EVENT_DETECTED
+    messages:
+      incidentHelpDetected:
+        $ref: '#/components/messages/IncidentMessage'
+
+  INCIDENT_NOT_OK_EVENT_DETECTED:
+    address: INCIDENT_NOT_OK_EVENT_DETECTED
+    messages:
+      incidentNotOkDetected:
+        $ref: '#/components/messages/IncidentMessage'
+
+  ALARM_SET:
+    address: ALARM_SET
+    messages:
+      alarmSet:
+        $ref: '#/components/messages/AlarmMessage'
+
+  ALARM_RING:
+    address: ALARM_RING
+    messages:
+      alarmRing:
+        $ref: '#/components/messages/AlarmMessage'
+
+  ALARM_STOP:
+    address: ALARM_STOP
+    messages:
+      alarmStop:
+        $ref: '#/components/messages/AlarmMessage'
+
+  ALARM_SNOOZE:
+    address: ALARM_SNOOZE
+    messages:
+      alarmSnooze:
+        $ref: '#/components/messages/AlarmMessage'
+
+  DEVICE_READY:
+    address: DEVICE_READY
+    messages:
+      deviceReady:
+        $ref: '#/components/messages/DeviceMessage'
+
+  DEVICE_OFF:
+    address: DEVICE_OFF
+    messages:
+      deviceOff:
+        $ref: '#/components/messages/DeviceMessage'
+
+  DEVICE_RESET:
+    address: DEVICE_RESET
+    messages:
+      deviceReset:
+        $ref: '#/components/messages/DeviceMessage'
+
+  DEVICE_RESTART:
+    address: DEVICE_RESTART
+    messages:
+      deviceRestart:
+        $ref: '#/components/messages/DeviceMessage'
+
+  DEVICE_CONFIGURE:
+    address: DEVICE_CONFIGURE
+    messages:
+      deviceConfigure:
+        $ref: '#/components/messages/DeviceMessage'
+
+  PING_DEVICE_UP:
+    address: PING_DEVICE_UP
+    messages:
+      pingDeviceUp:
+        $ref: '#/components/messages/DeviceMessage'
+
+  REMINDER_NOTIFY:
+    address: REMINDER_NOTIFY
+    messages:
+      reminderNotify:
+        $ref: '#/components/messages/ReminderMessage'
+
+operations:
+
+  incidentFallDetected:
+    action: receive
+    channel:
+      $ref: '#/channels/INCIDENT_FALL_DOWN_DETECTED'
+
+  incidentNoResponse:
+    action: receive
+    channel:
+      $ref: '#/channels/INCIDENT_FALL_DOWN_NO_RESPONSE'
+
+  incidentHelpDetected:
+    action: receive
+    channel:
+      $ref: '#/channels/INCIDENT_HELP_EVENT_DETECTED'
+
+  incidentNotOkDetected:
+    action: receive
+    channel:
+      $ref: '#/channels/INCIDENT_NOT_OK_EVENT_DETECTED'
+
+  alarmSet:
+    action: receive
+    channel:
+      $ref: '#/channels/ALARM_SET'
+
+  alarmRing:
+    action: receive
+    channel:
+      $ref: '#/channels/ALARM_RING'
+
+  alarmStop:
+    action: receive
+    channel:
+      $ref: '#/channels/ALARM_STOP'
+
+  alarmSnooze:
+    action: receive
+    channel:
+      $ref: '#/channels/ALARM_SNOOZE'
+
+  deviceReady:
+    action: receive
+    channel:
+      $ref: '#/channels/DEVICE_READY'
+
+  deviceOff:
+    action: receive
+    channel:
+      $ref: '#/channels/DEVICE_OFF'
+
+  deviceReset:
+    action: receive
+    channel:
+      $ref: '#/channels/DEVICE_RESET'
+
+  deviceRestart:
+    action: receive
+    channel:
+      $ref: '#/channels/DEVICE_RESTART'
+
+  deviceConfigure:
+    action: receive
+    channel:
+      $ref: '#/channels/DEVICE_CONFIGURE'
+
+  pingDeviceUp:
+    action: receive
+    channel:
+      $ref: '#/channels/PING_DEVICE_UP'
+
+  reminderNotify:
+    action: receive
+    channel:
+      $ref: '#/channels/REMINDER_NOTIFY'
+
+components:
+
+  messages:
+
+    IncidentMessage:
+      name: IncidentMessage
+      payload:
+        $ref: '#/components/schemas/BasePayload'
+
+    AlarmMessage:
+      name: AlarmMessage
+      payload:
+        $ref: '#/components/schemas/BasePayload'
+
+    DeviceMessage:
+      name: DeviceMessage
+      payload:
+        $ref: '#/components/schemas/BasePayload'
+
+    ReminderMessage:
+      name: ReminderMessage
+      payload:
+        $ref: '#/components/schemas/BasePayload'
+
+  schemas:
+
+    BasePayload:
+      type: object
+      properties:
+
+        test:
+          type: boolean
+          example: true
+
+        timestamp:
+          type: integer
+          example: 1781752369737
+
+        datetime:
+          type: string
+          example: "18/06/2026 10:12:25"
+
+      additionalProperties: true
