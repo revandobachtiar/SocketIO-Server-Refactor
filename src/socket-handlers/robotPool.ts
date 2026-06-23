@@ -1,0 +1,1 @@
+export const robotSockets: Record<string, string> = {};

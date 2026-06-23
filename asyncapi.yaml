@@ -4,7 +4,7 @@ info:
   title: Elderly Device Socket.IO API
   version: 1.0.0
   description: |
-    Elderly Robot Care
+    Elderly Robot Care Socket IO API Documentation
 
 servers:
   production:

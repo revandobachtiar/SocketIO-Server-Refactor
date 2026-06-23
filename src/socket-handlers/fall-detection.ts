@@ -1,0 +1,108 @@
+import { Socket, Server } from "socket.io";
+import { z } from "zod";
+import { dateTimeSchema } from "../utils/formatDateTime";
+
+
+
+// SCHEMA
+
+
+const incidentFallDownDetected = z.object({
+    datetime: dateTimeSchema,
+
+});
+
+const incidentFallDownNoResponse = z.object({
+    datetime: dateTimeSchema,
+
+});
+
+const incidentHelpEventDetected = z.object({
+    datetime: dateTimeSchema,
+});
+
+const incidentOkEventDetected = z.object({
+    datetime: dateTimeSchema,
+});
+
+const incidentCompleted = z.object({
+    datetime: dateTimeSchema,
+})
+
+
+
+// TYPE
+
+
+export type IncidentFallDownDetected =
+    z.infer<typeof incidentFallDownDetected>;
+
+export type IncidentFallDownNoResponese = 
+    z.infer<typeof incidentFallDownNoResponse>;
+
+export type IncidentHelpEventDetected =
+    z.infer<typeof incidentHelpEventDetected>;
+
+export type IncidentOkEventDetected = 
+    z.infer<typeof incidentOkEventDetected>;
+
+export type IncidentCompleted = 
+    z.infer<typeof incidentCompleted>;
+
+
+
+// EVENT CONFIG
+
+
+const eventSchemas = {
+    INCIDENT_FALL_DOWN_DETECTED: incidentFallDownDetected,
+    INCIDENT_FALL_DOWN_NO_RESPONSE: incidentFallDownNoResponse,
+    INCIDENT_HELP_EVENT_DETECTED: incidentHelpEventDetected,
+    INCIDENT_OK_EVENT_DETECTED: incidentOkEventDetected,
+    INCIDENT_COMPLETED: incidentCompleted,
+};
+
+
+
+export default function incidentHandlers(
+    socket: Socket,
+    io: Server
+): void {
+
+    Object.entries(eventSchemas).forEach(
+        ([eventName, schema]) => {
+            socket.on(eventName, (msg: unknown, ack?: Function) => {
+
+                const result = schema.safeParse(msg);
+
+                if (!result.success) {
+                    console.error(`[${eventName}] Validation Failed`);
+                    if (ack) {
+                        ack({
+                            status: "error",
+                            event: eventName,
+                            message: "Validation failed",
+                            errors: result.error.flatten(),
+                        });
+                    }
+                    return;
+                }
+                const robotId = socket.data.robotId;
+                const payload = {
+                    ...result.data,
+                };
+                console.log(`${eventName} from: ${robotId}`);
+                io.to(robotId).emit(eventName, payload);
+                console.log(`${eventName} emitted`, payload);
+                if (ack) {
+                    ack({
+                        status: "ok",
+                        event: eventName,
+                        robotId,
+                        datetime: payload.datetime,
+                    });
+                }
+            });
+        }
+    );
+}
