@@ -35,17 +35,17 @@ const ackFallDownNoResponse = z.object({
     datetime: dateTimeSchema,
 });
 
-const ackHelpEventDetected = z.object({
-    datetime: dateTimeSchema,
-});
+// const ackHelpEventDetected = z.object({
+//     datetime: dateTimeSchema,
+// });
 
-const ackOkEventDetected = z.object({
-    datetime: dateTimeSchema,
-});
+// const ackOkEventDetected = z.object({
+//     datetime: dateTimeSchema,
+// });
 
-const ackCompleted = z.object({
-    datetime: dateTimeSchema,
-});
+// const ackCompleted = z.object({
+//     datetime: dateTimeSchema,
+// });
 
 
 
@@ -73,21 +73,19 @@ export type AckFallDownDetected =
 export type AckFallDownNoResponse =
     z.infer<typeof ackFallDownNoResponse>;
 
-export type AckHelpEventDetected =
-    z.infer<typeof ackHelpEventDetected>;
+// export type AckHelpEventDetected =
+//     z.infer<typeof ackHelpEventDetected>;
 
-export type AckOkEventDetected =
-    z.infer<typeof ackOkEventDetected>;
+// export type AckOkEventDetected =
+//     z.infer<typeof ackOkEventDetected>;
 
-export type AckIncidentCompleted =
-    z.infer<typeof ackCompleted>;
+// export type AckIncidentCompleted =
+//     z.infer<typeof ackCompleted>;
 
 
 
 // EVENT CONFIG
 
-
-const RETRY_INTERVAL_MS = 3000;
 
 const eventSchemas = {
     INCIDENT_FALL_DOWN_DETECTED: incidentFallDownDetected,
@@ -100,17 +98,9 @@ const eventSchemas = {
 const ackSchemas = {
     ACK_FALL_DOWN_DETECTED: ackFallDownDetected,
     ACK_FALL_DOWN_NO_RESPONSE: ackFallDownNoResponse,
-    ACK_HELP_EVENT_DETECTED: ackHelpEventDetected,
-    ACK_OK_EVENT_DETECTED: ackOkEventDetected,
-    ACK_COMPLETED: ackCompleted,
-};
-
-const eventToAck: Record<string, string> = {
-    INCIDENT_FALL_DOWN_DETECTED:    "ACK_FALL_DOWN_DETECTED",
-    INCIDENT_FALL_DOWN_NO_RESPONSE: "ACK_FALL_DOWN_NO_RESPONSE",
-    INCIDENT_HELP_EVENT_DETECTED:   "ACK_HELP_EVENT_DETECTED",
-    INCIDENT_OK_EVENT_DETECTED:     "ACK_OK_EVENT_DETECTED",
-    INCIDENT_COMPLETED:             "ACK_COMPLETED",
+    // ACK_HELP_EVENT_DETECTED: ackHelpEventDetected,
+    // ACK_OK_EVENT_DETECTED: ackOkEventDetected,
+    // ACK_COMPLETED: ackCompleted,
 };
 
 
@@ -119,9 +109,6 @@ export default function incidentHandlers(
     socket: Socket,
     io: Server
 ): void {
-
-    const activeTimers = new Map<string, ReturnType<typeof setInterval>>();
-
 
     Object.entries(eventSchemas).forEach(
         ([eventName, schema]) => {
@@ -150,14 +137,6 @@ export default function incidentHandlers(
                 console.log(`${eventName} from: ${robotId}`);
                 io.to(robotId).emit(eventName, payload);
                 console.log(`${eventName} emitted`, payload);
-
-    
-                const timer = setInterval(() => {
-                    io.to(robotId).emit(eventName, payload);
-                    console.log(`[${eventName}] Retrying to ${robotId}`);
-                }, RETRY_INTERVAL_MS);
-
-                activeTimers.set(eventName, timer);
 
                 if (ack) {
                     ack({
@@ -197,17 +176,6 @@ export default function incidentHandlers(
                     ...result.data,
                 };
 
-        
-                const mainEvent = Object.keys(eventToAck).find(
-                    (key) => eventToAck[key] === ackEventName
-                );
-
-                if (mainEvent && activeTimers.has(mainEvent)) {
-                    clearInterval(activeTimers.get(mainEvent));
-                    activeTimers.delete(mainEvent);
-                    console.log(`[${ackEventName}] Retry "${mainEvent}" stopped, UI ${robotId} confirmed`);
-                }
-
                 console.log(`${ackEventName} from: ${robotId}`);
                 console.log(`${ackEventName} received`, payload);
 
@@ -226,8 +194,6 @@ export default function incidentHandlers(
 
 
     socket.on("disconnect", () => {
-        activeTimers.forEach((timer) => clearInterval(timer));
-        activeTimers.clear();
-        console.log(`[DISCONNECT] All cleared for ${socket.data.robotId}`);
+        console.log(`[DISCONNECT] Socket disconnected: ${socket.data.robotId}`);
     });
 }
