@@ -2,22 +2,39 @@ import { Socket, Server } from "socket.io";
 import { z } from "zod";
 import { dateTimeSchema } from "../utils/formatDateTime";
 
-const speechactive = z.object({
-    datetime: dateTimeSchema,
-})
-const speechinactive = z.object({
+const incidentFallDetected = z.object({
     datetime: dateTimeSchema,
 })
 
-export type SpeechActive = 
-    z.infer<typeof speechactive>;
+const IncidentFallDownNoResponse = z.object({
+    datetime: dateTimeSchema,
+})
 
-export type SpeechInactive = 
-    z.infer<typeof speechactive>;
+const IncidentHelpEventDetected = z.object({
+    datetime: dateTimeSchema,
+})
+
+const IncidentOkEventDetected = z.object({
+    datetime: dateTimeSchema,
+})
+
+export type IncidentFallDetected = 
+    z.infer<typeof incidentFallDetected>;
+
+export type IncidentFallDownNoResponse = 
+    z.infer<typeof IncidentFallDownNoResponse>;
+
+export type IncidentHelpEventDetected = 
+    z.infer<typeof IncidentHelpEventDetected>;
+
+export type IncidentOkEventDetected = 
+    z.infer<typeof IncidentOkEventDetected>;
 
 const eventSchemas = {
-    SPEECH_ACTIVE: speechactive,
-    SPEECH_INACTIVE: speechinactive,
+    INCIDENT_FALL_DOWN_DETECTED: incidentFallDetected,
+    INCIDENT_FALL_DOWN_NO_RESPONSE: IncidentFallDownNoResponse,
+    INCIDENT_HELP_EVENT_DETECTED: IncidentHelpEventDetected,
+    INCIDENT_OK_EVENT_DETECTED: IncidentOkEventDetected
 }
 
 export default function speechModuleListener(
@@ -53,10 +70,8 @@ export default function speechModuleListener(
                         status: "ok",
                         event: eventName,
                         robotId,
-                        datetime: payload.datetime,
                     });
                 }
-
             })
         }
     )
