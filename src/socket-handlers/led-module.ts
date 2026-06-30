@@ -12,19 +12,41 @@ const recording = z.object({
     datetime: dateTimeSchema,
 })
 
-export type Talking = 
-    z.infer<typeof talking>;
+const incidentFallEvent = z.object({
+    datetime: dateTimeSchema,
+})
 
-export type Listen = 
-    z.infer<typeof listen>;
+const incidentHelpEvent = z.object({
+    datetime: dateTimeSchema,
+})
 
-export type Recording = 
-    z.infer<typeof recording>;
+const incidentOkEvent = z.object({
+    datetime: dateTimeSchema,
+})
+
+const wakeup = z.object({
+    datetime: dateTimeSchema,
+})
+
+const waiting = z.object({
+    datetime: dateTimeSchema,
+})
+
+const sleep = z.object({
+    datetime: dateTimeSchema,
+})
 
 const eventSchemas = {
     TALKING: talking,
     LISTEN: listen,
-    RECORDING: recording
+    RECORDING: recording,
+    SLEEP : sleep,
+    WAKE_UP : wakeup,
+    WAITING : waiting,
+    INCIDENT_FALL_EVENT_DETECTED: incidentFallEvent,
+    INCIDENT_FALL_EVENT_NO_RESPONSE: incidentHelpEvent,
+    INCIDENT_HELP_EVENT_DETECTED: incidentHelpEvent,
+    INCIDENT_OK_EVENT_DETECTED: incidentOkEvent
 }
 
 export default function ledModule(

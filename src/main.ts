@@ -20,7 +20,7 @@ io.on("connection", (socket) => {
     const { robotId } = socket.handshake.auth;
 
     if (!robotId) {
-        console.log("RobotId tidak ditemukan");
+        console.log("robotId Not Found");
         socket.disconnect();
         return;
     }
@@ -35,6 +35,6 @@ io.on("connection", (socket) => {
 
 
 httpServer.listen(4000,"0.0.0.0",() => {
-        console.log("Socket.IO server aktif di port 4000");
+        console.log("Socket.IO Active, PORT : 4000");
     }
 );
