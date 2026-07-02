@@ -177,6 +177,7 @@ export default function incidentHandlers(
                 };
 
                 console.log(`${ackEventName} from: ${robotId}`);
+                io.to(robotId).emit(ackEventName, payload);
                 console.log(`${ackEventName} received`, payload);
 
                 if (ack) {

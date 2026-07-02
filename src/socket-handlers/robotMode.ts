@@ -2,22 +2,32 @@ import { Socket, Server } from "socket.io";
 import { z } from "zod";
 import { dateTimeSchema } from "../utils/formatDateTime";
 
-const robotwakeup = z.object ({
+const wakeup = z.object ({
     datetime: dateTimeSchema,
 })
 
-const robotsleep = z.object ({
+const sleep = z.object ({
     datetime: dateTimeSchema
 })
 
-export type RobotWakeUp = 
-    z.infer<typeof robotwakeup>;
-export type RobotSleep = 
-    z.infer<typeof robotsleep>;
+const waiting = z.object ({
+    datetime: dateTimeSchema
+})
+
+const talking = z.object ({
+    datetime: dateTimeSchema
+})
+
+const recording = z.object ({
+    datetime: dateTimeSchema
+})
 
 const eventSchemas = {
-    ROBOT_WAKE_UP: robotwakeup,
-    ROBOT_SLEEP: robotsleep
+    WAKE_UP: wakeup,
+    SLEEP: sleep,
+    WAITING: waiting,
+    TALKING: talking,
+    RECORDING: recording
 }
 
 
