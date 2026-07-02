@@ -27,7 +27,7 @@ const incidentCompleted = z.object({
     datetime: dateTimeSchema,
 });
 
-const ackFallDownDetected = z.object({
+const ackFallEventDetected = z.object({
     datetime: dateTimeSchema,
 });
 
@@ -68,7 +68,7 @@ export type IncidentCompleted =
     z.infer<typeof incidentCompleted>;
 
 export type AckFallDownDetected =
-    z.infer<typeof ackFallDownDetected>;
+    z.infer<typeof ackFallEventDetected>;
 
 export type AckFallDownNoResponse =
     z.infer<typeof ackFallDownNoResponse>;
@@ -96,7 +96,7 @@ const eventSchemas = {
 };
 
 const ackSchemas = {
-    ACK_FALL_DOWN_DETECTED: ackFallDownDetected,
+    ACK_FALL_EVENT_DETECTED: ackFallEventDetected,
     ACK_FALL_DOWN_NO_RESPONSE: ackFallDownNoResponse,
     // ACK_HELP_EVENT_DETECTED: ackHelpEventDetected,
     // ACK_OK_EVENT_DETECTED: ackOkEventDetected,
