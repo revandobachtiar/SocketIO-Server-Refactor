@@ -7,7 +7,7 @@ import { dateTimeSchema } from "../utils/formatDateTime";
 // SCHEMA
 
 
-const incidentFallDownDetected = z.object({
+const incidentFallEventDetected = z.object({
     datetime: dateTimeSchema,
 });
 
@@ -53,7 +53,7 @@ const ackFallDownNoResponse = z.object({
 
 
 export type IncidentFallDownDetected =
-    z.infer<typeof incidentFallDownDetected>;
+    z.infer<typeof incidentFallEventDetected>;
 
 export type IncidentFallDownNoResponese =
     z.infer<typeof incidentFallDownNoResponse>;
@@ -88,7 +88,7 @@ export type AckFallDownNoResponse =
 
 
 const eventSchemas = {
-    INCIDENT_FALL_DOWN_DETECTED: incidentFallDownDetected,
+    INCIDENT_FALL_DOWN_DETECTED: incidentFallEventDetected,
     INCIDENT_FALL_DOWN_NO_RESPONSE: incidentFallDownNoResponse,
     INCIDENT_HELP_EVENT_DETECTED: incidentHelpEventDetected,
     INCIDENT_OK_EVENT_DETECTED: incidentOkEventDetected,
