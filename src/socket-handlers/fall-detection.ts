@@ -7,7 +7,7 @@ import { dateTimeSchema } from "../utils/formatDateTime";
 // SCHEMA
 
 
-const incidentFallDownDetected = z.object({
+const incidentFallEventDetected = z.object({
     datetime: dateTimeSchema,
 });
 
@@ -27,13 +27,16 @@ const incidentCompleted = z.object({
     datetime: dateTimeSchema,
 });
 
-const ackFallDownDetected = z.object({
+const ackFallEventDetected = z.object({
+    datetime: dateTimeSchema,
+});
+const wakeUpByFallDetection = z.object({
     datetime: dateTimeSchema,
 });
 
-const ackFallDownNoResponse = z.object({
-    datetime: dateTimeSchema,
-});
+// const ackFallDownNoResponse = z.object({
+//     datetime: dateTimeSchema,
+// });
 
 // const ackHelpEventDetected = z.object({
 //     datetime: dateTimeSchema,
@@ -52,8 +55,8 @@ const ackFallDownNoResponse = z.object({
 // TYPE
 
 
-export type IncidentFallDownDetected =
-    z.infer<typeof incidentFallDownDetected>;
+export type IncidentFallEventDetected =
+    z.infer<typeof incidentFallEventDetected>;
 
 export type IncidentFallDownNoResponese =
     z.infer<typeof incidentFallDownNoResponse>;
@@ -67,11 +70,15 @@ export type IncidentOkEventDetected =
 export type IncidentCompleted =
     z.infer<typeof incidentCompleted>;
 
-export type AckFallDownDetected =
-    z.infer<typeof ackFallDownDetected>;
+export type AckFallEventDetected =
+    z.infer<typeof ackFallEventDetected>;
 
-export type AckFallDownNoResponse =
-    z.infer<typeof ackFallDownNoResponse>;
+
+export type WakeUpByFallDetection =
+    z.infer<typeof wakeUpByFallDetection>;
+
+// export type AckFallDownNoResponse =
+//     z.infer<typeof ackFallDownNoResponse>;
 
 // export type AckHelpEventDetected =
 //     z.infer<typeof ackHelpEventDetected>;
@@ -88,16 +95,17 @@ export type AckFallDownNoResponse =
 
 
 const eventSchemas = {
-    INCIDENT_FALL_DOWN_DETECTED: incidentFallDownDetected,
+    INCIDENT_FALL_EVENT_DETECTED: incidentFallEventDetected,
     INCIDENT_FALL_DOWN_NO_RESPONSE: incidentFallDownNoResponse,
     INCIDENT_HELP_EVENT_DETECTED: incidentHelpEventDetected,
     INCIDENT_OK_EVENT_DETECTED: incidentOkEventDetected,
     INCIDENT_COMPLETED: incidentCompleted,
+    WAKE_UP_BY_FALL_DETECTION: wakeUpByFallDetection,
 };
 
 const ackSchemas = {
-    ACK_FALL_DOWN_DETECTED: ackFallDownDetected,
-    ACK_FALL_DOWN_NO_RESPONSE: ackFallDownNoResponse,
+    ACK_FALL_EVENT_DETECTED: ackFallEventDetected,
+    // ACK_FALL_DOWN_NO_RESPONSE: ackFallDownNoResponse,
     // ACK_HELP_EVENT_DETECTED: ackHelpEventDetected,
     // ACK_OK_EVENT_DETECTED: ackOkEventDetected,
     // ACK_COMPLETED: ackCompleted,
@@ -123,7 +131,7 @@ export default function incidentHandlers(
                             status: "error",
                             event: eventName,
                             message: "Validation failed",
-                            errors: result.error.flatten(),
+                            errors: result.error.issues,
                         });
                     }
                     return;
@@ -165,7 +173,7 @@ export default function incidentHandlers(
                             status: "error",
                             event: ackEventName,
                             message: "Validation failed",
-                            errors: result.error.flatten(),
+                            errors: result.error.issues,
                         });
                     }
                     return;

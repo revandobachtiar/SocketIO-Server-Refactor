@@ -17,6 +17,9 @@ const io = new Server(httpServer, {
     },
 });
 io.on("connection", (socket) => {
+    console.log("====================");
+    console.log("Socket ID :", socket.id);
+    console.log("Auth      :", socket.handshake.auth);
     const { robotId } = socket.handshake.auth;
 
     if (!robotId) {

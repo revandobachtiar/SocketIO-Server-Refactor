@@ -20,4 +20,4 @@ export default function registerHandlers(socket : any,io: any){
     wifiModuleHandler(socket,io)
     volumeModuleHandler(socket,io)
     brightnessModuleHandler(socket,io)
-}
+}               
