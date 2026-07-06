@@ -32,6 +32,81 @@ const apointmentScheduleSpecificDay  = z.object({
     robotId : z.string(),
 })
 
+const healthActivityWeek  = z.object({
+    datetime: dateTimeSchema,
+    robotId : z.string(),
+})
+
+const healthActivitMonth  = z.object({
+    datetime: dateTimeSchema,
+    robotId : z.string(),
+})
+
+const healthActivitySpecificDay  = z.object({
+    datetime: dateTimeSchema,
+    robotId : z.string(),
+})
+
+const socialActivityWeek  = z.object({
+    datetime: dateTimeSchema,
+    robotId : z.string(),
+})
+
+const socialActivityMonth  = z.object({
+    datetime: dateTimeSchema,
+    robotId : z.string(),
+})
+
+const socialActivitySpecificDay  = z.object({
+    datetime: dateTimeSchema,
+    robotId : z.string(),
+})
+
+const visitsWeek  = z.object({
+    datetime: dateTimeSchema,
+    robotId : z.string(),
+})
+
+const visitsMonth  = z.object({
+    datetime: dateTimeSchema,
+    robotId : z.string(),
+})
+
+const visitsSpecificDay  = z.object({
+    datetime: dateTimeSchema,
+    robotId : z.string(),
+})
+
+const invoiceWeek  = z.object({
+    datetime: dateTimeSchema,
+    robotId : z.string(),
+})
+
+const invoiceMonth  = z.object({
+    datetime: dateTimeSchema,
+    robotId : z.string(),
+})
+
+const invoiceSpecificDay  = z.object({
+    datetime: dateTimeSchema,
+    robotId : z.string(),
+})
+
+const showTodayReminders  = z.object({
+    datetime: dateTimeSchema,
+    robotId : z.string(),
+})
+
+const iAmOk  = z.object({
+    datetime: dateTimeSchema,
+    robotId : z.string(),
+})
+
+const help  = z.object({
+    datetime: dateTimeSchema,
+    robotId : z.string(),
+})
+
 const eventSchemas = {
     MEDICINE_SCHEDULE_WEEK: medicineScheduleWeek,
     MEDICINE_SCHEDULE_MONTH: medicineScheduleMonth,
@@ -39,6 +114,21 @@ const eventSchemas = {
     APPOINTMENT_SCHEDULE_WEEK: appointmentScheduleWeek,
     APPOINTMENT_SCHEDULE_MONTH: appointmentScheduleMonth,
     APPOINTMENT_SCHEDULE_SPECIFIC_DAY: apointmentScheduleSpecificDay,
+    HEALTH_ACTIVITY_WEEK: healthActivityWeek,
+    HEALTH_ACTIVITY_MONTH: healthActivitMonth,
+    HEALTH_ACTIVITY_SPECIFIC_DAY: healthActivitySpecificDay,
+    SOCIAL_ACTIVITY_WEEK: socialActivityWeek,
+    SOCIAL_ACTIVITY_MONTH: socialActivityMonth,
+    SOCIAL_ACTIVITY_SPECIFIC_DAY: socialActivitySpecificDay,
+    VISITS_WEEK: visitsWeek,
+    VISISTS_MONTH: visitsMonth,
+    VISITS_SPECIFIC_DAY: visitsSpecificDay,
+    INVOICE_WEEK: invoiceWeek,
+    INVOICE_MONTH: invoiceMonth,
+    INVOICE_SPECIFIC_DAY: invoiceSpecificDay,
+    SHOW_TODAY_REMINDERS: showTodayReminders,
+    i_am_ok : iAmOk,
+    help : help,
 };
 
 export default function incidentHandlers(
@@ -69,9 +159,10 @@ export default function incidentHandlers(
                 const payload = {
                     ...result.data,
                 };
+                const robotIdTarget = payload.robotId;
 
                 console.log(`${eventName} from: ${robotId}`);
-                io.to(robotId).emit(eventName, payload);
+                io.to(robotIdTarget).emit(eventName, payload);
                 console.log(`${eventName} emitted`, payload);
 
                 if (ack) {

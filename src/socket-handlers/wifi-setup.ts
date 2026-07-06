@@ -1,8 +1,6 @@
 import { Socket, Server } from "socket.io";
 import { z } from "zod";
 
-
-
 const scanWifiStream = z.object({});
 
 const wifiScanStarted = z.object({
@@ -61,54 +59,9 @@ const wifiStatus = z.object({
     uptime: z.number(),
 });
 
-
-const wifiDisconnected = z.object({
-    ssid: z.string(),
-    reason: z.string(),
-    timestamp: z.number(),
-});
-
-
 const disconnectWifi = z.object({
     ssid: z.string(),
 });
-
-
-const wifiError = z.object({
-    error_code: z.string(),
-    message: z.string(),
-});
-
-
-export type ScaneWifiStream = 
-    z.infer<typeof scanWifiStream>;
-export type WifiScanStarted = 
-    z.infer<typeof wifiScanStarted>;
-export type WifiNetworkFound = 
-    z.infer<typeof wifiNetworkFound>;
-export type WifiScanCompleted = 
-    z.infer<typeof wifiScanCompleted>;
-export type ConnectWifi =
-    z.infer<typeof connectWifi>;
-export type WifiConnecting =
-    z.infer<typeof wifiConnecting>;
-export type WifiConnectProgress = 
-    z.infer<typeof wifiConnectProgress>;
-export type WifiConnected = 
-    z.infer<typeof wifiConnected>;
-export type WifiConnectionFailed = 
-    z.infer<typeof wifiConnectionFailed>;
-export type GetWifiStatus =
-    z.infer<typeof getWifiStatus>;
-export type WifiStatus = 
-    z.infer<typeof wifiStatus>
-export type WifiDisconnected = 
-    z.infer<typeof wifiDisconnected>;
-export type DisconnectWifi = 
-    z.infer<typeof disconnectWifi>;
-export type WifiError =
-    z.infer<typeof wifiError>;
-
 
 const eventSchemas = {
     SCAN_WIFI_STREAM : scanWifiStream,
@@ -117,14 +70,12 @@ const eventSchemas = {
     WIFI_SCAN_COMPLETED: wifiScanCompleted,
     CONNECT_WIFI: connectWifi,
     WIFI_CONNECTING: wifiConnecting,
-    WIFI_CONNECTION_PROGRESS: wifiConnectProgress,
+    WIFI_CONNECTING_PROGRESS: wifiConnectProgress,
     WIFI_CONNECTED: wifiConnected,
-    WIFICONNECTION_FAILED: wifiConnectionFailed,
+    WIFI_CONNECTED_FAILED: wifiConnectionFailed,
     GET_WIFI_STATUS: getWifiStatus,
     WIFI_STATUS: wifiStatus,
-    WIFI_DISCONNECTED: wifiDisconnected,
-    DISCONNECTED_WIFI: disconnectWifi,
-    WIFI_ERROR: wifiError
+    DISCONNECT_WIFI: disconnectWifi,
 }
 
 export default function wifiModuleHandler(
