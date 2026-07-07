@@ -63,6 +63,10 @@ const disconnectWifi = z.object({
     ssid: z.string(),
 });
 
+const forgetWifi = z.object({
+    ssid: z.string(),
+})
+
 const eventSchemas = {
     SCAN_WIFI_STREAM : scanWifiStream,
     WIFI_SCAN_STARTED: wifiScanStarted,
@@ -76,6 +80,7 @@ const eventSchemas = {
     GET_WIFI_STATUS: getWifiStatus,
     WIFI_STATUS: wifiStatus,
     DISCONNECT_WIFI: disconnectWifi,
+    FORGET_WIFI : forgetWifi
 }
 
 export default function wifiModuleHandler(
