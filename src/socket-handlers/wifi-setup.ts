@@ -79,6 +79,10 @@ const wifiError = z.object({
     message: z.string(),
 });
 
+const forgetWifi = z.object({
+    ssid: z.string(),
+});
+
 
 export type ScaneWifiStream = 
     z.infer<typeof scanWifiStream>;
@@ -108,7 +112,8 @@ export type DisconnectWifi =
     z.infer<typeof disconnectWifi>;
 export type WifiError =
     z.infer<typeof wifiError>;
-
+export type ForgetWifi =
+    z.infer<typeof forgetWifi>;
 
 const eventSchemas = {
     SCAN_WIFI_STREAM : scanWifiStream,
@@ -124,7 +129,8 @@ const eventSchemas = {
     WIFI_STATUS: wifiStatus,
     WIFI_DISCONNECTED: wifiDisconnected,
     DISCONNECTED_WIFI: disconnectWifi,
-    WIFI_ERROR: wifiError
+    WIFI_ERROR: wifiError,
+    FORGET_WIFI: forgetWifi
 }
 
 export default function wifiModuleHandler(
