@@ -40,7 +40,7 @@ export default function deviceStatusHandler(
                                     status: "error",
                                     event: eventName,
                                     message: "Validation failed",
-                                    errors: result.error.flatten(),
+                                    errors: result.error.issues,
                                 });
                             }
                             return;
