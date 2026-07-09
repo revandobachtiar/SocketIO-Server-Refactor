@@ -12,7 +12,8 @@
     "declaration": true,
     "declarationMap": true,
 
-    "exactOptionalPropertyTypes": true
+    "exactOptionalPropertyTypes": true,
+    "allowImportingTsExtensions": true
   },
   "include": [
     "src/**/*.ts",
