@@ -127,8 +127,8 @@ const eventSchemas = {
     INVOICE_MONTH: invoiceMonth,
     INVOICE_SPECIFIC_DAY: invoiceSpecificDay,
     SHOW_TODAY_REMINDERS: showTodayReminders,
-    i_am_ok : iAmOk,
-    help : help,
+    I_AM_OK : iAmOk,
+    HELP : help,
 };
 
 export default function incidentHandlers(

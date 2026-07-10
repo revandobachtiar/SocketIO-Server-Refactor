@@ -22,12 +22,22 @@ const recording = z.object ({
     datetime: dateTimeSchema
 })
 
+const listening = z.object ({
+    datetime: dateTimeSchema
+})
+
+const upload_failed = z.object ({
+    datetime: dateTimeSchema
+})
+
 const eventSchemas = {
     WAKE_UP: wakeup,
     SLEEP: sleep,
     WAITING: waiting,
     TALKING: talking,
-    RECORDING: recording
+    RECORDING: recording,
+    LISTENING : listening,
+    UPLOAD_FAILE : upload_failed
 }
 
 
