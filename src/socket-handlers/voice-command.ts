@@ -24,6 +24,30 @@ const waiting = z.object({
 const sleep = z.object({
     datetime: dateTimeSchema,
 })
+const uploadFailed = z.object({
+    datetime: dateTimeSchema,
+})
+
+    export type Talking =
+        z.infer<typeof talking>;
+
+    export type Listen =
+        z.infer<typeof listen>;
+
+    export type Recording =
+        z.infer<typeof recording>;
+
+    export type Sleep =
+        z.infer<typeof sleep>;
+
+    export type WakeUp =
+        z.infer<typeof wakeup>;
+
+    export type Waiting =
+        z.infer<typeof waiting>;
+
+    export type UploadFailed =
+        z.infer<typeof uploadFailed>;
 
 
 const eventSchemas = {
@@ -33,6 +57,7 @@ const eventSchemas = {
     SLEEP : sleep,
     WAKE_UP : wakeup,
     WAITING : waiting,
+    UPLOAD_FAILED : uploadFailed,
 }
 
 
