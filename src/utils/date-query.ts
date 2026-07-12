@@ -1,15 +1,15 @@
 import { z } from "zod";
 
-export const dateQuery = z.object({
+export const dateTimeObjectSchema = z.object({
     year: z.number().int().min(1970).max(2100),
-    month: z.number().int().min(1).max(12),
-    week: z.number().int().min(1).max(5).optional(),
+    month: z.number().int().min(1).max(12).optional(),
+    week: z.number().int().min(1).max(53).optional(),
     day: z.number().int().min(1).max(31).optional(),
     hour: z.number().int().min(0).max(23).optional(),
     minute: z.number().int().min(0).max(59).optional(),
     second: z.number().int().min(0).max(59).optional(),
 }).refine((val) => {
-    if (val.day === undefined) return true;
+    if (val.day === undefined || val.month === undefined) return true;
 
     const date = new Date(
         val.year,
@@ -25,5 +25,5 @@ export const dateQuery = z.object({
         date.getDate() === val.day
     );
 }, {
-    message: "Date is not valid",
+    message: "Invalid date",
 });
