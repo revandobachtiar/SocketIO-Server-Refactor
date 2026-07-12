@@ -36,13 +36,18 @@ const sleep = z.object({
     datetime: dateTimeSchema,
 })
 
+const upload_failed = z.object({
+    datetime: dateTimeSchema
+})
+
 const eventSchemas = {
     TALKING: talking,
-    LISTEN: listen,
+    LISTENING: listen,
     RECORDING: recording,
-    SLEEP : sleep,
-    WAKE_UP : wakeup,
-    WAITING : waiting,
+    SLEEP: sleep,
+    WAKE_UP: wakeup,
+    WAITING: waiting,
+    UPLOAD_FAILED: upload_failed,
     INCIDENT_FALL_EVENT_DETECTED: incidentFallEvent,
     INCIDENT_FALL_EVENT_NO_RESPONSE: incidentHelpEvent,
     INCIDENT_HELP_EVENT_DETECTED: incidentHelpEvent,
@@ -54,7 +59,7 @@ export default function ledModule(
     io: Server
 ): void {
 
-    Object.entries(eventSchemas). forEach(
+    Object.entries(eventSchemas).forEach(
         ([eventName, schema]) => {
             socket.on(eventName, (msg: unknown, ack?: Function) => {
                 const result = schema.safeParse(msg);
