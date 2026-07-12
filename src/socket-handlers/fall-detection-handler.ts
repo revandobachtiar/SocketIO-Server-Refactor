@@ -29,14 +29,6 @@ const ackFallEventDetected = z.object({
     datetime: dateTimeSchema,
 });
 
-const iAmOk = z.object({
-    datetime: dateTimeSchema,
-})
-
-const help = z.object({
-    datetime: dateTimeSchema,
-})
-
 const eventSchemas = {
     INCIDENT_FALL_EVENT_DETECTED: incidentFallEventDetected,
     INCIDENT_FALL_DOWN_NO_RESPONSE: incidentFallDownNoResponse,
@@ -44,8 +36,6 @@ const eventSchemas = {
     INCIDENT_OK_EVENT_DETECTED: incidentOkEventDetected,
     INCIDENT_COMPLETED: incidentCompleted,
     WAKE_UP_BY_FALL_DETECTION: wakeUpByFallDetection,
-    I_AM_OK: iAmOk,
-    HELP: help
 };
 
 const ackSchemas = {

@@ -97,6 +97,18 @@ const showTodayReminders = z.object({
     robotId: z.string(),
 })
 
+const iAmOk = z.object({
+    datetime: dateQuery,
+    robotId: z.string(),
+})
+
+const help = z.object({
+    datetime: dateQuery,
+    robotId: z.string(),
+})
+
+
+
 const eventSchemas = {
     MEDICINE_SCHEDULE_WEEK: medicineScheduleWeek,
     MEDICINE_SCHEDULE_MONTH: medicineScheduleMonth,
@@ -117,6 +129,8 @@ const eventSchemas = {
     INVOICE_MONTH: invoiceMonth,
     INVOICE_SPECIFIC_DAY: invoiceSpecificDay,
     TODAY_REMINDERS: showTodayReminders,
+    I_AM_OK: iAmOk,
+    HELP: help
 };
 
 export default function voiceCommandHandler(
