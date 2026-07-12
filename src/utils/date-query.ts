@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const dateTimeObjectSchema = z.object({
+export const dateQuery = z.object({
     year: z.number().int().min(1970).max(2100),
     month: z.number().int().min(1).max(12).optional(),
     week: z.number().int().min(1).max(53).optional(),
