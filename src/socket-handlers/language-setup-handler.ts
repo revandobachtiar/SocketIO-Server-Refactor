@@ -1,111 +1,33 @@
 import { Socket, Server } from "socket.io";
 import { z } from "zod";
-import { dateTimeSchema } from "../utils/formatDateTime";
 
-
-
-// SCHEMA
-
-
-const incidentFallEventDetected = z.object({
-    datetime: dateTimeSchema,
+const currentLanguage = z.object({
+    lang: z.string(),
 });
 
-const incidentFallDownNoResponse = z.object({
-    datetime: dateTimeSchema,
+const getLanguage = z.object({
 });
 
-const incidentHelpEventDetected = z.object({
-    datetime: dateTimeSchema,
+const setLanguage = z.object({
+    lang: z.string(),
 });
 
-const incidentOkEventDetected = z.object({
-    datetime: dateTimeSchema,
+const ackSetLanguage = z.object({
+    success: z.boolean(),
+    message: z.string(),
 });
-
-const incidentCompleted = z.object({
-    datetime: dateTimeSchema,
-});
-
-const ackFallEventDetected = z.object({
-    datetime: dateTimeSchema,
-});
-
-const ackFallDownNoResponse = z.object({
-    datetime: dateTimeSchema,
-});
-
-// const ackHelpEventDetected = z.object({
-//     datetime: dateTimeSchema,
-// });
-
-// const ackOkEventDetected = z.object({
-//     datetime: dateTimeSchema,
-// });
-
-// const ackCompleted = z.object({
-//     datetime: dateTimeSchema,
-// });
-
-
-
-// TYPE
-
-
-export type IncidentFallDownDetected =
-    z.infer<typeof incidentFallEventDetected>;
-
-export type IncidentFallDownNoResponese =
-    z.infer<typeof incidentFallDownNoResponse>;
-
-export type IncidentHelpEventDetected =
-    z.infer<typeof incidentHelpEventDetected>;
-
-export type IncidentOkEventDetected =
-    z.infer<typeof incidentOkEventDetected>;
-
-export type IncidentCompleted =
-    z.infer<typeof incidentCompleted>;
-
-export type AckFallDownDetected =
-    z.infer<typeof ackFallEventDetected>;
-
-export type AckFallDownNoResponse =
-    z.infer<typeof ackFallDownNoResponse>;
-
-// export type AckHelpEventDetected =
-//     z.infer<typeof ackHelpEventDetected>;
-
-// export type AckOkEventDetected =
-//     z.infer<typeof ackOkEventDetected>;
-
-// export type AckIncidentCompleted =
-//     z.infer<typeof ackCompleted>;
-
-
-
-// EVENT CONFIG
-
 
 const eventSchemas = {
-    INCIDENT_FALL_DOWN_DETECTED: incidentFallEventDetected,
-    INCIDENT_FALL_DOWN_NO_RESPONSE: incidentFallDownNoResponse,
-    INCIDENT_HELP_EVENT_DETECTED: incidentHelpEventDetected,
-    INCIDENT_OK_EVENT_DETECTED: incidentOkEventDetected,
-    INCIDENT_COMPLETED: incidentCompleted,
+    LANGUAGE_CURRENT: currentLanguage,
+    LANGUAGE_GET: getLanguage,
+    LANGUAGE_SET: setLanguage,
 };
 
 const ackSchemas = {
-    ACK_FALL_EVENT_DETECTED: ackFallEventDetected,
-    ACK_FALL_DOWN_NO_RESPONSE: ackFallDownNoResponse,
-    // ACK_HELP_EVENT_DETECTED: ackHelpEventDetected,
-    // ACK_OK_EVENT_DETECTED: ackOkEventDetected,
-    // ACK_COMPLETED: ackCompleted,
-};
+    ACK_LANGUAGE_SET: ackSetLanguage,
+}
 
-
-
-export default function incidentHandlers(
+export default function languageSetupHandler(
     socket: Socket,
     io: Server
 ): void {
@@ -143,7 +65,6 @@ export default function incidentHandlers(
                         status: "ok",
                         event: eventName,
                         robotId,
-                        datetime: payload.datetime,
                     });
                 }
             });
@@ -177,7 +98,6 @@ export default function incidentHandlers(
                 };
 
                 console.log(`${ackEventName} from: ${robotId}`);
-                io.to(robotId).emit(ackEventName, payload);
                 console.log(`${ackEventName} received`, payload);
 
                 if (ack) {
@@ -185,7 +105,6 @@ export default function incidentHandlers(
                         status: "ok",
                         event: ackEventName,
                         robotId,
-                        datetime: payload.datetime,
                     });
                 }
             });

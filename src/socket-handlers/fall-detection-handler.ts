@@ -1,33 +1,60 @@
 import { Socket, Server } from "socket.io";
 import { z } from "zod";
+import { dateTimeSchema } from "../utils/formatDateTime";
 
-const currentLanguage = z.object({
-    lang: z.string(),
+
+const incidentFallEventDetected = z.object({
+    datetime: dateTimeSchema,
 });
 
-const getLanguage = z.object({
+const wakeUpByFallDetection = z.object({})
+
+const incidentFallDownNoResponse = z.object({
+    datetime: dateTimeSchema,
 });
 
-const setLanguage = z.object({
-    lang: z.string(),
+const incidentHelpEventDetected = z.object({
+    datetime: dateTimeSchema,
 });
 
-const ackSetLanguage = z.object({
-    success: z.boolean(),
-    message: z.string(),
+const incidentOkEventDetected = z.object({
+    datetime: dateTimeSchema,
 });
+
+const incidentCompleted = z.object({
+    datetime: dateTimeSchema,
+});
+
+const ackFallEventDetected = z.object({
+    datetime: dateTimeSchema,
+});
+
+const iAmOk = z.object({
+    datetime: dateTimeSchema,
+})
+
+const help = z.object({
+    datetime: dateTimeSchema,
+})
 
 const eventSchemas = {
-    LANGUAGE_CURRENT: currentLanguage,
-    LANGUAGE_GET: getLanguage,
-    LANGUAGE_SET: setLanguage,
+    INCIDENT_FALL_EVENT_DETECTED: incidentFallEventDetected,
+    INCIDENT_FALL_DOWN_NO_RESPONSE: incidentFallDownNoResponse,
+    INCIDENT_HELP_EVENT_DETECTED: incidentHelpEventDetected,
+    INCIDENT_OK_EVENT_DETECTED: incidentOkEventDetected,
+    INCIDENT_COMPLETED: incidentCompleted,
+    WAKE_UP_BY_FALL_DETECTION: wakeUpByFallDetection,
+    I_AM_OK: iAmOk,
+    HELP: help
 };
 
 const ackSchemas = {
-    ACK_LANGUAGE_SET: ackSetLanguage,
-}
+    ACK_FALL_EVENT_DETECTED: ackFallEventDetected,
+};
 
-export default function languageSetupHandlers(
+
+
+export default function fallDetectionHandler(
     socket: Socket,
     io: Server
 ): void {
@@ -65,6 +92,7 @@ export default function languageSetupHandlers(
                         status: "ok",
                         event: eventName,
                         robotId,
+                        datetime: payload.datetime,
                     });
                 }
             });
@@ -98,6 +126,7 @@ export default function languageSetupHandlers(
                 };
 
                 console.log(`${ackEventName} from: ${robotId}`);
+                io.to(robotId).emit(ackEventName, payload);
                 console.log(`${ackEventName} received`, payload);
 
                 if (ack) {
@@ -105,6 +134,7 @@ export default function languageSetupHandlers(
                         status: "ok",
                         event: ackEventName,
                         robotId,
+                        datetime: payload.datetime,
                     });
                 }
             });

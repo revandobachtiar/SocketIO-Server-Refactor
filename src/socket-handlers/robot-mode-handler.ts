@@ -12,18 +12,6 @@ const recording = z.object({
     datetime: dateTimeSchema,
 })
 
-const incidentFallEvent = z.object({
-    datetime: dateTimeSchema,
-})
-
-const incidentHelpEvent = z.object({
-    datetime: dateTimeSchema,
-})
-
-const incidentOkEvent = z.object({
-    datetime: dateTimeSchema,
-})
-
 const wakeup = z.object({
     datetime: dateTimeSchema,
 })
@@ -48,13 +36,9 @@ const eventSchemas = {
     WAKE_UP: wakeup,
     WAITING: waiting,
     UPLOAD_FAILED: upload_failed,
-    INCIDENT_FALL_EVENT_DETECTED: incidentFallEvent,
-    INCIDENT_FALL_EVENT_NO_RESPONSE: incidentHelpEvent,
-    INCIDENT_HELP_EVENT_DETECTED: incidentHelpEvent,
-    INCIDENT_OK_EVENT_DETECTED: incidentOkEvent
 }
 
-export default function ledModule(
+export default function robotModeHandler(
     socket: Socket,
     io: Server
 ): void {

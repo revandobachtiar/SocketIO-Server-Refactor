@@ -2,20 +2,20 @@ import { Socket, Server } from "socket.io";
 import { z } from "zod";
 
 
-const volumeset = z.object({})
-const volumesetrequest = z.object({})
+const screenbrightnessset = z.object({})
+const screenbrightnessrequest = z.object({})
 
-export type VolumeSet = 
-    z.infer<typeof volumeset>;
-export type VolumeSetRequest =
-    z.infer<typeof volumesetrequest>;
+export type ScreenBrightnessSet = 
+    z.infer<typeof screenbrightnessset>;
+export type ScreenBrightnessRequest =
+    z.infer<typeof screenbrightnessrequest>;
 
 const eventSchemas = {
-    VOLUME_SET: volumeset,
-    VOLUME_SET_REQUEST: volumesetrequest
+    SCREEN_BRIGHTNESS_SET: screenbrightnessrequest,
+    SCREEN_BRIGHTNESS_REQUEST: screenbrightnessset
 }
 
-export default function volumeModuleHandler(
+export default function brightnessHandler(
     socket: Socket,
     io: Server
 ): void {
@@ -54,15 +54,3 @@ export default function volumeModuleHandler(
                 }
             )
 }
-// export default function volumeHandlers(socket, io) {
-//     //VOLUME
-//     socket.on("VOLUME_SET", (msg) => {
-//         console.log("VOLUME_SET:", msg, "from:", socket.userId);
-//         io.emit("VOLUME_SET", msg);
-//     });
-
-//     socket.on("VOLUME_SET_REQUEST", (msg) => {
-//         console.log("VOLUME_SET_REQUEST:", msg, "from:", socket.userId);
-//         io.emit("VOLUME_SET_REQUEST", msg);
-//     })    
-// }

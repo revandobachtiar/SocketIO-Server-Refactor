@@ -1,42 +1,16 @@
 import { Socket, Server } from "socket.io";
 import { z } from "zod";
-import { dateTimeSchema } from "../utils/formatDateTime";
 
-const alarmset = z.object ({
-    datetime:dateTimeSchema,
-})
 
-const alarmring = z.object ({
-    datetime:dateTimeSchema,
-})
-
-const alarmstop = z.object ({
-    datetime:dateTimeSchema,
-})
-
-const alarmsnooze = z.object ({
-    datetime:dateTimeSchema,
-})
-
-export type AlarmSet = 
-    z.infer<typeof alarmset>;
-export type AlarmRing = 
-    z.infer<typeof alarmring>;
-export type AlarmStop = 
-    z.infer<typeof alarmstop>;
-export type AlarmSnooze = 
-    z.infer<typeof alarmsnooze>;
+const volumeset = z.object({})
+const volumesetrequest = z.object({})
 
 const eventSchemas = {
-    ALARM_SET: alarmset,
-    ALARM_RING: alarmring,
-    ALARM_STOP: alarmstop,
-    ALARM_SNOOZE: alarmsnooze
+    VOLUME_SET: volumeset,
+    VOLUME_SET_REQUEST: volumesetrequest
 }
 
-
-
-export default function alarmHandlers(
+export default function volumeHandler(
     socket: Socket,
     io: Server
 ): void {
@@ -68,7 +42,6 @@ export default function alarmHandlers(
                                 status: "ok",
                                 event: eventName,
                                 robotId,
-                                datetime: payload.datetime,
                             });
                         }
         
@@ -76,3 +49,15 @@ export default function alarmHandlers(
                 }
             )
 }
+// export default function volumeHandlers(socket, io) {
+//     //VOLUME
+//     socket.on("VOLUME_SET", (msg) => {
+//         console.log("VOLUME_SET:", msg, "from:", socket.userId);
+//         io.emit("VOLUME_SET", msg);
+//     });
+
+//     socket.on("VOLUME_SET_REQUEST", (msg) => {
+//         console.log("VOLUME_SET_REQUEST:", msg, "from:", socket.userId);
+//         io.emit("VOLUME_SET_REQUEST", msg);
+//     })    
+// }

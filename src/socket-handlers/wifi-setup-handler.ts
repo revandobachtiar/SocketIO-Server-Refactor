@@ -83,7 +83,7 @@ const eventSchemas = {
     FORGET_WIFI : forgetWifi
 }
 
-export default function wifiModuleHandler(
+export default function wifiSetupHandler(
     socket: Socket,
     io: Server
 ): void {

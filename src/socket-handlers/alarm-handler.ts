@@ -1,21 +1,42 @@
 import { Socket, Server } from "socket.io";
 import { z } from "zod";
+import { dateTimeSchema } from "../utils/formatDateTime";
 
+const alarmset = z.object ({
+    datetime:dateTimeSchema,
+})
 
-const screenbrightnessset = z.object({})
-const screenbrightnessrequest = z.object({})
+const alarmring = z.object ({
+    datetime:dateTimeSchema,
+})
 
-export type ScreenBrightnessSet = 
-    z.infer<typeof screenbrightnessset>;
-export type ScreenBrightnessRequest =
-    z.infer<typeof screenbrightnessrequest>;
+const alarmstop = z.object ({
+    datetime:dateTimeSchema,
+})
+
+const alarmsnooze = z.object ({
+    datetime:dateTimeSchema,
+})
+
+export type AlarmSet = 
+    z.infer<typeof alarmset>;
+export type AlarmRing = 
+    z.infer<typeof alarmring>;
+export type AlarmStop = 
+    z.infer<typeof alarmstop>;
+export type AlarmSnooze = 
+    z.infer<typeof alarmsnooze>;
 
 const eventSchemas = {
-    SCREEN_BRIGHTNESS_SET: screenbrightnessrequest,
-    SCREEN_BRIGHTNESS_REQUEST: screenbrightnessset
+    ALARM_SET: alarmset,
+    ALARM_RING: alarmring,
+    ALARM_STOP: alarmstop,
+    ALARM_SNOOZE: alarmsnooze
 }
 
-export default function brightnessModuleHandler(
+
+
+export default function alarmHandler(
     socket: Socket,
     io: Server
 ): void {
@@ -47,6 +68,7 @@ export default function brightnessModuleHandler(
                                 status: "ok",
                                 event: eventName,
                                 robotId,
+                                datetime: payload.datetime,
                             });
                         }
         
@@ -54,18 +76,3 @@ export default function brightnessModuleHandler(
                 }
             )
 }
-
-
-
-// export default function brightnessHandlers(socket, io) {
-//     //BRIGHTNESS
-//     socket.on("SCREEN_BRIGHTNESS_SET", (msg) => {
-//         console.log("SCREEN_BRIGHTNESS_SET:", msg);
-//         io.emit("SCREEN_BRIGHTNESS_SET", msg);
-//     });
-
-//     socket.on("SCREEN_BRIGHTNESS_REQUEST", (msg) => {
-//         console.log("SCREEN_BRIGHTNESS_REQUEST:", msg);
-//         io.emit("SCREEN_BRIGHTNESS_REQUEST", msg);
-//     })
-// }

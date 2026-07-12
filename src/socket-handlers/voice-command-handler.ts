@@ -2,109 +2,99 @@ import { Socket, Server } from "socket.io";
 import { z } from "zod";
 import { dateTimeSchema } from "../utils/formatDateTime";
 
-const medicineScheduleWeek  = z.object({
+const medicineScheduleWeek = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 });
 
-const medicineScheduleMonth  = z.object({
+const medicineScheduleMonth = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 });
 
-const medicineScheduleSpecificDay  = z.object({
+const medicineScheduleSpecificDay = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 });
 
-const appointmentScheduleWeek  = z.object({
+const appointmentScheduleWeek = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 });
 
-const appointmentScheduleMonth  = z.object({
+const appointmentScheduleMonth = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 })
 
-const apointmentScheduleSpecificDay  = z.object({
+const apointmentScheduleSpecificDay = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 })
 
-const healthActivityWeek  = z.object({
+const healthActivityWeek = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 })
 
-const healthActivitMonth  = z.object({
+const healthActivitMonth = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 })
 
-const healthActivitySpecificDay  = z.object({
+const healthActivitySpecificDay = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 })
 
-const socialActivityWeek  = z.object({
+const socialActivityWeek = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 })
 
-const socialActivityMonth  = z.object({
+const socialActivityMonth = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 })
 
-const socialActivitySpecificDay  = z.object({
+const socialActivitySpecificDay = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 })
 
-const visitsWeek  = z.object({
+const visitsWeek = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 })
 
-const visitsMonth  = z.object({
+const visitsMonth = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 })
 
-const visitsSpecificDay  = z.object({
+const visitsSpecificDay = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 })
 
-const invoiceWeek  = z.object({
+const invoiceWeek = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 })
 
-const invoiceMonth  = z.object({
+const invoiceMonth = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 })
 
-const invoiceSpecificDay  = z.object({
+const invoiceSpecificDay = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 })
 
-const showTodayReminders  = z.object({
+const showTodayReminders = z.object({
     datetime: dateTimeSchema,
-    robotId : z.string(),
-})
-
-const iAmOk  = z.object({
-    datetime: dateTimeSchema,
-    robotId : z.string(),
-})
-
-const help  = z.object({
-    datetime: dateTimeSchema,
-    robotId : z.string(),
+    robotId: z.string(),
 })
 
 const eventSchemas = {
@@ -126,12 +116,10 @@ const eventSchemas = {
     INVOICE_WEEK: invoiceWeek,
     INVOICE_MONTH: invoiceMonth,
     INVOICE_SPECIFIC_DAY: invoiceSpecificDay,
-    SHOW_TODAY_REMINDERS: showTodayReminders,
-    I_AM_OK : iAmOk,
-    HELP : help,
+    TODAY_REMINDERS: showTodayReminders,
 };
 
-export default function incidentHandlers(
+export default function voiceCommandHandler(
     socket: Socket,
     io: Server
 ): void {
