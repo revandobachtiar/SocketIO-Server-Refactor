@@ -98,12 +98,12 @@ const showTodayReminders = z.object({
 })
 
 const iAmOk = z.object({
-    datetime: dateQuery,
+    datetime: z.null(),
     robotId: z.string(),
-})
+});
 
 const help = z.object({
-    datetime: dateQuery,
+    datetime: z.null(),
     robotId: z.string(),
 })
 
