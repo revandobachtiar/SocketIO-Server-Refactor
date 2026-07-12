@@ -1,99 +1,99 @@
 import { Socket, Server } from "socket.io";
 import { z } from "zod";
-import { dateTimeSchema } from "../utils/formatDateTime";
+import { dateQuery } from "../utils/date-query";
 
 const medicineScheduleWeek = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 });
 
 const medicineScheduleMonth = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 });
 
 const medicineScheduleSpecificDay = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 });
 
 const appointmentScheduleWeek = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 });
 
 const appointmentScheduleMonth = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 })
 
 const apointmentScheduleSpecificDay = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 })
 
 const healthActivityWeek = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 })
 
 const healthActivitMonth = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 })
 
 const healthActivitySpecificDay = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 })
 
 const socialActivityWeek = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 })
 
 const socialActivityMonth = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 })
 
 const socialActivitySpecificDay = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 })
 
 const visitsWeek = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 })
 
 const visitsMonth = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 })
 
 const visitsSpecificDay = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 })
 
 const invoiceWeek = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 })
 
 const invoiceMonth = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 })
 
 const invoiceSpecificDay = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 })
 
 const showTodayReminders = z.object({
-    datetime: dateTimeSchema,
+    datetime: dateQuery,
     robotId: z.string(),
 })
 

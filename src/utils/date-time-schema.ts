@@ -28,5 +28,5 @@ export const dateTimeSchema = z.string().refine((value) => {
         date.getSeconds() === Number(ss)
     );
 }, {
-    message: "Datetime harus menggunakan format dd/MM/yyyy HH:mm:ss"
+    message: "Datetime must be dd/MM/yyyy HH:mm:ss"
 });

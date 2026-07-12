@@ -1,6 +1,6 @@
 import { Socket, Server } from "socket.io";
 import { z } from "zod";
-import { dateTimeSchema } from "../utils/formatDateTime";
+import { dateTimeSchema } from "../utils/date-time-schema";
 
 const alarmset = z.object ({
     datetime:dateTimeSchema,
