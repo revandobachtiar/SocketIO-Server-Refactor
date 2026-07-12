@@ -131,13 +131,21 @@ export default function voiceCommandHandler(
                 const result = schema.safeParse(msg);
 
                 if (!result.success) {
-                    console.error(`[${eventName}] Validation Failed`);
+                    const flatErrors = result.error.flatten();
+                    console.error(
+                        `[${eventName}] Validation Failed`,
+                        JSON.stringify({
+                            receivedPayload: msg,
+                            fieldErrors: flatErrors.fieldErrors,
+                            formErrors: flatErrors.formErrors,
+                        }, null, 2)
+                    );
                     if (ack) {
                         ack({
                             status: "error",
                             event: eventName,
                             message: "Validation failed",
-                            errors: result.error.flatten(),
+                            errors: flatErrors,
                         });
                     }
                     return;
