@@ -107,6 +107,9 @@ const help = z.object({
     robotId: z.string(),
 })
 
+const playingSound = z.object({})
+
+const soundPlayed = z.object({})
 
 
 const eventSchemas = {
@@ -130,7 +133,9 @@ const eventSchemas = {
     INVOICE_SPECIFIC_DAY: invoiceSpecificDay,
     TODAY_REMINDERS: showTodayReminders,
     I_AM_OK: iAmOk,
-    HELP: help
+    HELP: help,
+    PLAYING_SOUND: playingSound,
+    SOUND_PLAYED: soundPlayed
 };
 
 export default function voiceCommandHandler(
