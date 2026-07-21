@@ -1,16 +1,15 @@
 import { Socket, Server } from "socket.io";
 import { z } from "zod";
 
-
-const volumeset = z.object({})
-const volumesetrequest = z.object({})
+const playingSound = z.object({})
+const soundPlayed = z.object({})
 
 const eventSchemas = {
-    VOLUME_SET: volumeset,
-    VOLUME_SET_REQUEST: volumesetrequest
+    PLAYING_SOUND: playingSound,
+    SOUND_PLAYED: soundPlayed
 }
 
-export default function volumeHandler(
+export default function soundPlayerHandler(
     socket: Socket,
     io: Server
 ): void {
