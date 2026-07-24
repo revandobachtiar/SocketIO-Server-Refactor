@@ -128,7 +128,7 @@ const eventSchemas = {
     INVOICE_WEEK: invoiceWeek,
     INVOICE_MONTH: invoiceMonth,
     INVOICE_SPECIFIC_DAY: invoiceSpecificDay,
-    TODAY_REMINDERS: showTodayReminders,
+    SHOW_TODAY_REMINDERS: showTodayReminders,
     I_AM_OK: iAmOk,
     HELP: help,
 };
