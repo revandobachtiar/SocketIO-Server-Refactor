@@ -123,7 +123,7 @@ const eventSchemas = {
     SOCIAL_ACTIVITY_MONTH: socialActivityMonth,
     SOCIAL_ACTIVITY_SPECIFIC_DAY: socialActivitySpecificDay,
     VISITS_WEEK: visitsWeek,
-    VISISTS_MONTH: visitsMonth,
+    VISITS_MONTH: visitsMonth,
     VISITS_SPECIFIC_DAY: visitsSpecificDay,
     INVOICE_WEEK: invoiceWeek,
     INVOICE_MONTH: invoiceMonth,
