@@ -1,5 +1,5 @@
 import { Socket, Server } from "socket.io";
-import { date, z } from "zod";
+import { z } from "zod";
 import { dateTimeSchema } from "../utils/date-time-schema";
 
 const alarmset = z.object ({
@@ -18,18 +18,25 @@ const alarmsnooze = z.object ({
     datetime:dateTimeSchema,
 })
 
-const wakeUpByAlarm = z.object ({
+const alarmstopbutton = z.object ({
+    datetime:dateTimeSchema,
 })
+
+const alarmsnoozebutton = z.object ({
+    datetime:dateTimeSchema,
+})
+
+const wakeupbyalarm = z.object ({})
 
 const eventSchemas = {
     ALARM_SET: alarmset,
     ALARM_RING: alarmring,
     ALARM_STOP: alarmstop,
     ALARM_SNOOZE: alarmsnooze,
-    WAKE_UP_BY_ALARM : wakeUpByAlarm,
+    WAKE_UP_BY_ALARM : wakeupbyalarm,
+    ALARM_STOP_BUTTON : alarmstopbutton,
+    ALARM_SNOOZE_BUTTON : alarmsnoozebutton
 }
-
-
 
 export default function alarmHandler(
     socket: Socket,
