@@ -1,6 +1,7 @@
 
 import alarmHandler from "./alarm-handler.ts";
 import brightnessHandler from "./brightness-handler.ts";
+import deviceStatusHandler from "./device-status.ts";
 import fallDetectionHandler from "./fall-detection-handler.ts";
 import robotHandlers from "./identity.ts"
 import languageSetupHandler from "./language-setup-handler.ts";
@@ -21,4 +22,5 @@ export default function registerHandlers(socket : any,io: any){
     volumeHandler(socket,io)
     wifiSetupHandler(socket,io)
     soundPlayerHandler(socket,io)
+    deviceStatusHandler(socket,io)
 }
