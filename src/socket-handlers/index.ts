@@ -7,20 +7,22 @@ import robotHandlers from "./identity.ts"
 import languageSetupHandler from "./language-setup-handler.ts";
 import robotModeHandler from "./robot-mode-handler";
 import soundPlayerHandler from "./sound-player-handler.ts";
+import systemControlHandler from "./system-control.ts";
 import voiceCommandHandler from "./voice-command-handler.ts";
 import volumeHandler from "./volume-handler.ts";
 import wifiSetupHandler from "./wifi-setup-handler.ts";
 
 export default function registerHandlers(socket : any,io: any){
-    robotHandlers(socket,io);
-    fallDetectionHandler(socket,io);
-    alarmHandler(socket,io);
+    robotHandlers(socket,io)
+    fallDetectionHandler(socket,io)
+    alarmHandler(socket,io)
     brightnessHandler(socket,io)
-    languageSetupHandler(socket,io);
+    languageSetupHandler(socket,io)
     robotModeHandler(socket,io);
     voiceCommandHandler(socket,io)
     volumeHandler(socket,io)
     wifiSetupHandler(socket,io)
     soundPlayerHandler(socket,io)
     deviceStatusHandler(socket,io)
+    systemControlHandler(socket,io)
 }
