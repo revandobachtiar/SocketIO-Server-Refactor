@@ -2,12 +2,12 @@ import { Socket, Server } from "socket.io";
 import { z } from "zod";
 
 
-const volumeset = z.object({})
-const volumesetrequest = z.object({})
+const volumeset = z.object({
+    level: z.number(),
+})
 
 const eventSchemas = {
     VOLUME_SET: volumeset,
-    VOLUME_SET_REQUEST: volumesetrequest
 }
 
 export default function volumeHandler(

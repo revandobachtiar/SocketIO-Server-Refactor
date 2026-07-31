@@ -2,16 +2,11 @@ import { Socket, Server } from "socket.io";
 import { z } from "zod";
 
 
-const screenbrightnessset = z.object({})
-const screenbrightnessrequest = z.object({})
-
-export type ScreenBrightnessSet = 
-    z.infer<typeof screenbrightnessset>;
-export type ScreenBrightnessRequest =
-    z.infer<typeof screenbrightnessrequest>;
+const screenbrightnessset = z.object({
+    level: z.number(),
+})
 
 const eventSchemas = {
-    SCREEN_BRIGHTNESS_SET: screenbrightnessrequest,
     SCREEN_BRIGHTNESS_REQUEST: screenbrightnessset
 }
 

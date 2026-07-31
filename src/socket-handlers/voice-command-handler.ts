@@ -98,13 +98,23 @@ const showTodayReminders = z.object({
 })
 
 const iAmOk = z.object({
-    datetime: z.null(),
+    datetime: dateQuery,
     robotId: z.string(),
 });
 
 const help = z.object({
-    datetime: z.null(),
+    datetime: dateQuery,
     robotId: z.string(),
+})
+
+const alarmSnoozeButton = z.object ({
+    datetime: dateQuery,
+    robotId : z.string(),
+})
+
+const alarmStopButton = z.object ({
+    datetime: dateQuery,
+    robotId : z.string(),   
 })
 
 
@@ -131,7 +141,10 @@ const eventSchemas = {
     SHOW_TODAY_REMINDERS: showTodayReminders,
     I_AM_OK: iAmOk,
     HELP: help,
+    ALARM_SNOOZE_BUTTON: alarmSnoozeButton,
+    ALARM_STOP_BUTTON: alarmStopButton,
 };
+
 
 export default function voiceCommandHandler(
     socket: Socket,

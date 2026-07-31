@@ -1,5 +1,5 @@
 import { Socket, Server } from "socket.io";
-import { z } from "zod";
+import { date, z } from "zod";
 import { dateTimeSchema } from "../utils/date-time-schema";
 
 const alarmset = z.object ({
@@ -18,20 +18,15 @@ const alarmsnooze = z.object ({
     datetime:dateTimeSchema,
 })
 
-export type AlarmSet = 
-    z.infer<typeof alarmset>;
-export type AlarmRing = 
-    z.infer<typeof alarmring>;
-export type AlarmStop = 
-    z.infer<typeof alarmstop>;
-export type AlarmSnooze = 
-    z.infer<typeof alarmsnooze>;
+const wakeUpByAlarm = z.object ({
+})
 
 const eventSchemas = {
     ALARM_SET: alarmset,
     ALARM_RING: alarmring,
     ALARM_STOP: alarmstop,
-    ALARM_SNOOZE: alarmsnooze
+    ALARM_SNOOZE: alarmsnooze,
+    WAKE_UP_BY_ALARM : wakeUpByAlarm,
 }
 
 
