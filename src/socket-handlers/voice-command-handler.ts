@@ -107,12 +107,12 @@ const help = z.object({
     robotId: z.string(),
 })
 
-const alarmSnoozeButton = z.object ({
+const alarmSnooze = z.object ({
     datetime: dateQuery,
     robotId : z.string(),
 })
 
-const alarmStopButton = z.object ({
+const alarmStop = z.object ({
     datetime: dateQuery,
     robotId : z.string(),   
 })
@@ -141,8 +141,8 @@ const eventSchemas = {
     SHOW_TODAY_REMINDERS: showTodayReminders,
     I_AM_OK: iAmOk,
     HELP: help,
-    ALARM_SNOOZE_BUTTON: alarmSnoozeButton,
-    ALARM_STOP_BUTTON: alarmStopButton,
+    ALARM_SNOOZE: alarmSnooze,
+    ALARM_STOP: alarmStop,
 };
 
 
