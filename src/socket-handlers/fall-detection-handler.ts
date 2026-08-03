@@ -1,13 +1,12 @@
 import { Socket, Server } from "socket.io";
-import { z } from "zod";
+import { z, ZodObject, ZodRawShape, ZodSchema, ZodType } from "zod";
 import { dateTimeSchema } from "../utils/date-time-schema";
-
 
 const incidentFallEventDetected = z.object({
     datetime: dateTimeSchema,
 });
 
-const wakeUpByFallDetection = z.object({})
+const wakeUpByFallDetection = z.object({});
 
 const incidentFallDownNoResponse = z.object({
     datetime: dateTimeSchema,
@@ -42,96 +41,71 @@ const ackSchemas = {
     ACK_FALL_EVENT_DETECTED: ackFallEventDetected,
 };
 
-
-
-export default function fallDetectionHandler(
+function formatZodError(error: z.ZodError): string {
+    return error.issues
+        .map((issue) => {
+            const path = issue.path.length ? issue.path.join(".") : "(root)";
+            return `${path}: ${issue.message} [${issue.code}]`;
+        })
+        .join("; ");
+}
+function registerValidatedEvent<T extends ZodRawShape>(
     socket: Socket,
-    io: Server
+    io: Server,
+    eventName: string,
+    schema: ZodObject<T>,
+    logLabel: "emitted" | "received"
 ): void {
+    socket.on(eventName, (msg: unknown, ack?: Function) => {
+        const result = schema.safeParse(msg);
 
-    Object.entries(eventSchemas).forEach(
-        ([eventName, schema]) => {
-            socket.on(eventName, (msg: unknown, ack?: Function) => {
+        if (!result.success) {
+            const details = formatZodError(result.error);
+            console.error(
+                `[${eventName}] Validation Failed from robotId=${socket.data.robotId ?? "unknown"} | payload=${JSON.stringify(
+                    msg
+                )} | errors: ${details}`
+            );
 
-                const result = schema.safeParse(msg);
+            if (ack) {
+                ack({
+                    status: "error",
+                    event: eventName,
+                    message: "Validation failed",
+                    errors: result.error.flatten(),
+                });
+            }
+            return;
+        }
 
-                if (!result.success) {
-                    console.error(`[${eventName}] Validation Failed`);
-                    if (ack) {
-                        ack({
-                            status: "error",
-                            event: eventName,
-                            message: "Validation failed",
-                            errors: result.error.flatten(),
-                        });
-                    }
-                    return;
-                }
+        const robotId = socket.data.robotId;
+        const payload = {
+            ...result.data,
+        };
 
-                const robotId = socket.data.robotId;
-                const payload = {
-                    ...result.data,
-                };
+        console.log(`${eventName} from: ${robotId}`);
+        io.to(robotId).emit(eventName, payload);
+        console.log(`${eventName} ${logLabel}`, payload);
 
-                console.log(`${eventName} from: ${robotId}`);
-                io.to(robotId).emit(eventName, payload);
-                console.log(`${eventName} emitted`, payload);
-
-                if (ack) {
-                    ack({
-                        status: "ok",
-                        event: eventName,
-                        robotId,
-                        datetime: payload.datetime,
-                    });
-                }
+        if (ack) {
+            ack({
+                status: "ok",
+                event: eventName,
+                robotId,
+                datetime: (payload as any).datetime,
             });
         }
-    );
+    });
+}
 
-  
+export default function fallDetectionHandler(socket: Socket, io: Server): void {
+    Object.entries(eventSchemas).forEach(([eventName, schema]) => {
+        registerValidatedEvent(socket, io, eventName, schema, "emitted");
+    });
 
-    Object.entries(ackSchemas).forEach(
-        ([ackEventName, schema]) => {
-            socket.on(ackEventName, (msg: unknown, ack?: Function) => {
-
-                const result = schema.safeParse(msg);
-
-                if (!result.success) {
-                    console.error(`[${ackEventName}] Validation Failed`);
-                    if (ack) {
-                        ack({
-                            status: "error",
-                            event: ackEventName,
-                            message: "Validation failed",
-                            errors: result.error.flatten(),
-                        });
-                    }
-                    return;
-                }
-
-                const robotId = socket.data.robotId;
-                const payload = {
-                    ...result.data,
-                };
-
-                console.log(`${ackEventName} from: ${robotId}`);
-                io.to(robotId).emit(ackEventName, payload);
-                console.log(`${ackEventName} received`, payload);
-
-                if (ack) {
-                    ack({
-                        status: "ok",
-                        event: ackEventName,
-                        robotId,
-                        datetime: payload.datetime,
-                    });
-                }
-            });
-        }
-    );
-
-
+    Object.entries(ackSchemas).forEach(([ackEventName, schema]) => {
+        registerValidatedEvent(socket, io, ackEventName, schema, "received");
+    });
 
     socket.on("disconnect", () => {
         console.log(`[DISCONNECT] Socket disconnected: ${socket.data.robotId}`);
