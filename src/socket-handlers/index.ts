@@ -5,6 +5,7 @@ import deviceStatusHandler from "./device-status.ts";
 import fallDetectionHandler from "./fall-detection-handler.ts";
 import robotHandlers from "./identity.ts"
 import languageSetupHandler from "./language-setup-handler.ts";
+import pushNotificationHandler from "./push-notification-handler.ts";
 import robotModeHandler from "./robot-mode-handler";
 import soundPlayerHandler from "./sound-player-handler.ts";
 import systemControlHandler from "./system-control.ts";
@@ -25,4 +26,5 @@ export default function registerHandlers(socket : any,io: any){
     soundPlayerHandler(socket,io)
     deviceStatusHandler(socket,io)
     systemControlHandler(socket,io)
+    pushNotificationHandler(socket,io)
 }
