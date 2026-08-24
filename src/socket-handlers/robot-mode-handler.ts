@@ -71,7 +71,7 @@ export default function robotModeHandler(
                 const payload = {
                     ...result.data,
                 };
-                console.log(`${eventName} from: ${robotId}`);
+                console.log(`${eventName} from: ${robotId} ${socket.id}`);
                 io.to(robotId).emit(eventName, payload);
                 console.log(`${eventName} emitted`, payload);
                 if (ack) {

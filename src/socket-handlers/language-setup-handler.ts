@@ -56,7 +56,7 @@ export default function languageSetupHandler(
                     ...result.data,
                 };
 
-                console.log(`${eventName} from: ${robotId}`);
+                console.log(`${eventName} from: ${robotId} ${socket.id}`);
                 io.to(robotId).emit(eventName, payload);
                 console.log(`${eventName} emitted`, payload);
 
@@ -97,7 +97,7 @@ export default function languageSetupHandler(
                     ...result.data,
                 };
 
-                console.log(`${ackEventName} from: ${robotId}`);
+                console.log(`${ackEventName} from: ${robotId} ${socket.id}`);
                 console.log(`${ackEventName} received`, payload);
 
                 if (ack) {

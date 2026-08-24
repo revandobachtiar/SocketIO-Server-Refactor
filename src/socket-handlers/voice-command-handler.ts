@@ -184,7 +184,7 @@ export default function voiceCommandHandler(
                 };
                 const robotIdTarget = payload.robotId;
 
-                console.log(`${eventName} from: ${robotId}`);
+                console.log(`${eventName} from: ${robotId} ${socket.id}`);
                 io.to(robotIdTarget).emit(eventName, payload);
                 console.log(`${eventName} emitted`, payload);
 
